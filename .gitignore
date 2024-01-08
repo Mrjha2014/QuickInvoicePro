@@ -1,0 +1,29 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+
+# Optional: Uncomment the next line if you want to ignore yarn's offline mirror files
+# .yarn/cache
+
+# Optional: Uncomment the next line if you want to ignore Yarn 2's .pnp.js file
+# .pnp.js
+
+# Optional: Uncomment the next line if you want to ignore coverage directory
+# coverage/
+
+# Optional: Uncomment the next line if you want to ignore .env files
+.env
+
+# OS generated files
+.DS_Store
+Thumbs.db
