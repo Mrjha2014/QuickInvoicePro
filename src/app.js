@@ -6,7 +6,8 @@ const companyRoutes = require("./routes/companyRoutes");
 const authRoutes = require("./routes/authRoutes");
 const superuserRoutes = require("./routes/superuserRoutes");
 const userRoutes = require("./routes/userRoutes");
-// const testRoutes = require("./routes/testroutes");
+const customerRoutes = require("./routes/customerRoutes");
+const invoiceRoutes = require("./routes/invoiceRoutes");
 
 connectDB();
 
@@ -18,22 +19,16 @@ app.use("/api/company", companyRoutes);
 // AuthRoutes
 app.use("/api/auth", authRoutes);
 
-// Procted routs
-app.use("/api/", productRoutes);
-
-// superuserRoutes
-app.use("/api", superuserRoutes);
-
-// Add users
+// users
 app.use("/api/users", userRoutes);
 
-// app.use("/api", productRoutes);
+// productRoutes
+app.use("/api/products", productRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Hello from the Express App");
-});
+// customerRoutes
+app.use("/api/customers", customerRoutes);
 
-// Test
-// app.use("/api", testRoutes);
+// invoiceRoutes
+app.use("/api/invoices", invoiceRoutes);
 
 module.exports = app;
