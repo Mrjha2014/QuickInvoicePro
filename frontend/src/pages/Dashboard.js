@@ -1,18 +1,19 @@
-import React from 'react';
-import { useAuth } from '../auth/AuthContext';
+import React from "react";
+import { useAuthContext } from "../auth/AuthContextProvider"; // adjust the path as necessary
 
 const Dashboard = () => {
-  const { user } = useAuth();
+  const { auth } = useAuthContext();
 
   return (
     <div>
       <h1>Dashboard</h1>
-      {user && user.isSuperUser && (
-        <p>Welcome, Superuser! You have full access to the system.</p>
+      {auth.isLoggedIn ? (
+        <p>Welcome! User ID: {auth.userId}</p>
+      ) : (
+        <p>Please log in.</p>
       )}
-      {/* Other dashboard content */}
+      {/* Rest of your component */}
     </div>
   );
 };
-
 export default Dashboard;

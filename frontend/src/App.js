@@ -1,29 +1,47 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { AuthProvider } from "./auth/AuthContext";
-import Login from "./components/Login";
-import Dashboard from "./pages/Dashboard";
-import Home from "./pages/Home";
-import ProtectedRoute from "./components/SuperAdminRoute";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider, useAuthContext } from "./auth/AuthContextProvider";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import LoginComponent from "./components/Login";
+import ProtectedPage from "./pages/Dashboard";
+import SuperUserPage from "./pages/Home";
 
-function App() {
+const RedirectToAppropriatePage = () => {
+  const { auth } = useAuthContext();
+
+  if (auth.isLoggedIn) {
+    return auth.isSuperUser ? <Navigate to="/superuser-only" /> : <Navigate to="/protected" />;
+  }
+  return <LoginComponent />;
+};
+
+const App = () => {
   return (
     <AuthProvider>
       <Router>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          {/* <SuperAdminRoute path="/superadmin" component={Dashboard} /> */}
-
-          <ProtectedRoute
-            path="/admin"
-            component={Dashboard}
-            permissionRequired="superuser"
+        <Routes>
+          <Route path="/login" element={<RedirectToAppropriatePage />} />
+          <Route
+            path="/protected"
+            element={
+              <ProtectedRoute>
+                <ProtectedPage />
+              </ProtectedRoute>
+            }
           />
-        </Switch>
+          <Route
+            path="/superuser-only"
+            element={
+              <ProtectedRoute requireSuperUser={true}>
+                <SuperUserPage />
+              </ProtectedRoute>
+            }
+          />
+          {/* Other routes */}
+        </Routes>
       </Router>
     </AuthProvider>
   );
-}
+};
 
 export default App;

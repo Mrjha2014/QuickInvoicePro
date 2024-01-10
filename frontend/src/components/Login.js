@@ -1,29 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../auth/AuthContext"; // Update the import path as needed
-import { useHistory } from "react-router-dom";
+import React, { useState } from 'react';
+import useAuth from '../auth/useAuth';
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+const LoginComponent = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const { login } = useAuth();
-
-  const { user } = useAuth();
-  const history = useHistory();
-
-  useEffect(() => {
-    if (user) {
-      history.push("/"); // Redirect to dashboard or some other page
-    }
-  }, [user, history]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const result = await login(email, password);
+    setError(''); // Reset error message
 
-    if (result && !result.success) {
-      setError(result.message); // Display the error message
+    const result = await login(email, password);
+    if (!result.success) {
+      setError(result.message);
     }
+
   };
 
   return (
@@ -50,11 +42,11 @@ const Login = () => {
             required
           />
         </div>
-        <p>{error}</p>
+        {error && <p>{error}</p>}
         <button type="submit">Login</button>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default LoginComponent;
