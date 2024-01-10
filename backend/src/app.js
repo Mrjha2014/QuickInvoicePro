@@ -1,34 +1,35 @@
 const express = require("express");
-const app = express();
+const cors = require("cors");
 const connectDB = require("./config/db");
 const productRoutes = require("./routes/productRoutes");
 const companyRoutes = require("./routes/companyRoutes");
 const authRoutes = require("./routes/authRoutes");
-const superuserRoutes = require("./routes/superuserRoutes");
 const userRoutes = require("./routes/userRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const invoiceRoutes = require("./routes/invoiceRoutes");
 
+const app = express();
 connectDB();
+
+// CORS configuration
+const corsOptions = {
+  origin: "http://localhost:3002", // Allow your frontend origin
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+// Enable CORS for all routes
+app.use(cors(corsOptions));
 
 app.use(express.json()); // for parsing application/json
 
-// Add Company Routes
+// Define your routes
 app.use("/api/company", companyRoutes);
-
-// AuthRoutes
 app.use("/api/auth", authRoutes);
-
-// users
 app.use("/api/users", userRoutes);
-
-// productRoutes
 app.use("/api/products", productRoutes);
-
-// customerRoutes
 app.use("/api/customers", customerRoutes);
-
-// invoiceRoutes
 app.use("/api/invoices", invoiceRoutes);
 
 module.exports = app;
